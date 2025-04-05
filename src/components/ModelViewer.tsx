@@ -1,58 +1,57 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { Canvas, useThree, useLoader } from '@react-three/fiber';
-import { OrbitControls, Environment, Stats } from '@react-three/drei';
-import { TextureLoader } from 'three';
-import * as THREE from 'three';
+import { useEffect, useState } from "react";
+import { Canvas, useThree, useLoader } from "@react-three/fiber";
+import { OrbitControls, Environment, Stats } from "@react-three/drei";
+import { TextureLoader } from "three";
+import * as THREE from "three";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Cuboid as Cube3D, Sun, Moon, Info } from 'lucide-react';
+import { Cuboid as Cube3D, Sun, Moon, Info } from "lucide-react";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { MTLLoader, OBJLoader } from 'three-stdlib';
+import { MTLLoader, OBJLoader } from "three-stdlib";
 
-const MODEL_URL = '/models/capsule.obj';
-const MTL_URL = '/models/capsule.mtl';
-const TEXTURE_URL = '/models/capsule0.jpg';
+const MODEL_URL = "/models/capsule.obj";
+const MTL_URL = "/models/capsule.mtl";
+const TEXTURE_URL = "/models/capsule0.jpg";
 
 function Model() {
   const materials = useLoader(MTLLoader, MTL_URL);
   materials.preload();
-  
+
   const obj = useLoader(OBJLoader, MODEL_URL, (loader) => {
     loader.setMaterials(materials);
   });
 
   const texture = useLoader(TextureLoader, TEXTURE_URL);
 
-  
-useEffect(() => {
-  obj.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      const materials = Array.isArray(child.material)
-        ? child.material
-        : [child.material];
+  useEffect(() => {
+    obj.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        const materials = Array.isArray(child.material)
+          ? child.material
+          : [child.material];
 
-      materials.forEach((mat) => {
-        if (mat instanceof THREE.MeshStandardMaterial) {
-          mat.map = texture;
-          mat.needsUpdate = true;
-        }
-      });
-    }
-  });
-}, [obj, texture]);
+        materials.forEach((mat) => {
+          if (mat instanceof THREE.MeshStandardMaterial) {
+            mat.map = texture;
+            mat.needsUpdate = true;
+          }
+        });
+      }
+    });
+  }, [obj, texture]);
 
   return <primitive object={obj} scale={1} position={[0, 0, 0]} />;
 }
 
 function Scene() {
   const { camera } = useThree();
-  
+
   useEffect(() => {
     camera.position.set(0, 0, 5);
   }, [camera]);
@@ -77,10 +76,7 @@ export default function ModelViewer() {
     source: "Local Files",
     model: "Capsule",
     materials: "MTL + Texture",
-  
   };
- 
-  
 
   return (
     <div className="flex h-screen">
@@ -93,16 +89,18 @@ export default function ModelViewer() {
           {showStats && <Stats />}
         </Canvas>
 
-
         <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex gap-2">
           <Button
             variant="outline"
             size="icon"
             onClick={() => setIsDarkMode(!isDarkMode)}
           >
-            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {isDarkMode ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
           </Button>
-          
         </div>
       </div>
 
@@ -113,8 +111,6 @@ export default function ModelViewer() {
         </div>
 
         <div className="space-y-6">
-
-
           <div>
             <div className="flex items-center gap-2 mb-2">
               <h3 className="font-medium">Model Information</h3>
@@ -127,7 +123,7 @@ export default function ModelViewer() {
                 </HoverCardContent>
               </HoverCard>
             </div>
-            
+
             <div className="space-y-2 text-sm">
               {Object.entries(metadata).map(([key, value]) => (
                 <div key={key} className="flex justify-between">
