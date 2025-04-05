@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Got it! Here's the **full `README.md`** file in one clean block, ready to copy-paste into your project:
 
-## Getting Started
+---
 
-First, run the development server:
+```md
+# 3D Capsule Viewer (OBJ/MTL)
+
+This is a 3D model viewer built with **Next.js**, **React Three Fiber**, and **Drei**. It supports `.obj` + `.mtl` model loading with textures, light controls, camera reset, and dark mode toggle.
+
+---
+
+## 📦 Features
+
+- ✅ Load `.obj` models with `.mtl` materials and textures
+- 🌀 Orbit camera controls
+- 🌞 Light intensity slider
+- 🌗 Dark/light theme toggle
+- 🔄 Reset camera button
+- 📊 Show/hide render stats
+- 📋 Basic model info display
+
+---
+
+## 🧱 Tech Stack
+
+- [Next.js](https://nextjs.org/)
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/)
+- [Drei](https://github.com/pmndrs/drei)
+- [Three.js](https://threejs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Lucide Icons](https://lucide.dev/)
+- [shadcn/ui](https://ui.shadcn.com/)
+
+---
+
+## 📁 Folder Structure
+
+```
+/public/models/
+│   capsule.obj
+│   capsule.mtl
+│   capsule0.jpg
+
+/components/
+│   ui/         // UI components like Button, Card, Slider
+
+/app/
+│   model-viewer/ // Main 3D Viewer component/page
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/harisankar705/3d-viewer.git
+cd 3d--viewer
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open your browser at:  
+📍 http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🖼 Add Your Model
 
-## Learn More
+Place your `.obj`, `.mtl`, and `.jpg` texture in the `public/models/` folder.
 
-To learn more about Next.js, take a look at the following resources:
+### Example structure:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+public/models/
+├── capsule.obj
+├── capsule.mtl
+└── capsule0.jpg
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Make sure:
 
-## Deploy on Vercel
+- Your `.obj` file references the `.mtl` correctly:
+  ```obj
+  mtllib capsule.mtl
+  usemtl material0
+  ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Your `.mtl` file references the texture like this:
+  ```mtl
+  newmtl material0
+  map_Kd capsule0.jpg
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧪 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| ❌ Model not showing | Check dev console for errors, check filenames and case sensitivity |
+| ❌ Texture not loading | Ensure the image file is in `public/models/` and matches `map_Kd` in the `.mtl` |
+| ❌ Model too small or big | Adjust `scale={}` and `position={}` in your `<primitive />` |
+| ❌ Camera acting weird | Use the "Reset Camera" button or check OrbitControls |
+
+---
+
+## 📄 License
+
+MIT License.  
+You are free to use, modify, and distribute this project.
+
+---
+
+## 💡 Want to Contribute?
+
+Pull requests are welcome!  
+You can improve this project by:
+
+- Adding support for `.glb`, `.gltf`, or `.fbx`
+- Model switching/uploading
+- Animation support
+- Drag & drop 3D file loader
+- UI improvements
+
+---
+
+## 🧑‍💻 Author
+
+👨‍💻 Built by a passionate MERN stack student learning 3D and React!  
+If you liked this project, feel free to ⭐️ it or give feedback.
+
+```
+
+---
+
+Let me know if you'd like me to also create:
+
+- `.gitignore`
+- `package.json` template
+- A GitHub description
+- Deployment guide (like on Vercel)
+
+Just ask bro, I got you 💻🔥
