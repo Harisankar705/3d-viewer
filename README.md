@@ -15,7 +15,6 @@ This is a 3D model viewer built with **Next.js**, **React Three Fiber**, and **D
 - 🌀 Orbit camera controls
 - 🌞 Light intensity slider
 - 🌗 Dark/light theme toggle
-- 🔄 Reset camera button
 - 📊 Show/hide render stats
 - 📋 Basic model info display
 

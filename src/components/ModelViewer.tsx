@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { Canvas, useThree, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, Stats } from '@react-three/drei';
 import { TextureLoader } from 'three';
+import * as THREE from 'three';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { Cuboid as Cube3D, RotateCcw, ZoomIn, ZoomOut, Sun, Moon, Info } from 'lucide-react';
+import { Cuboid as Cube3D, Sun, Moon, Info } from 'lucide-react';
 import {
   HoverCard,
   HoverCardContent,
@@ -29,14 +29,23 @@ function Model() {
 
   const texture = useLoader(TextureLoader, TEXTURE_URL);
 
-  useEffect(() => {
-    obj.traverse((child: any) => {
-      if (child.isMesh) {
-        child.material.map = texture;
-        child.material.needsUpdate = true;
-      }
-    });
-  }, [obj, texture]);
+  
+useEffect(() => {
+  obj.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+      const materials = Array.isArray(child.material)
+        ? child.material
+        : [child.material];
+
+      materials.forEach((mat) => {
+        if (mat instanceof THREE.MeshStandardMaterial) {
+          mat.map = texture;
+          mat.needsUpdate = true;
+        }
+      });
+    }
+  });
+}, [obj, texture]);
 
   return <primitive object={obj} scale={1} position={[0, 0, 0]} />;
 }
@@ -61,28 +70,16 @@ function Scene() {
 
 export default function ModelViewer() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [intensity, setIntensity] = useState(0.5);
   const [showStats, setShowStats] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const metadata = {
     format: "OBJ",
     source: "Local Files",
     model: "Capsule",
     materials: "MTL + Texture",
-    vertices: "Loading...",
-    faces: "Loading..."
+  
   };
-  const handleReset=()=>{
-    const canvas=document.querySelector('canvas')
-    if(!canvas)return
-    const fiber=(canvas as any).__reactThreeFiber
-    if(!fiber||!fiber.camera)return
-    const camera=fiber.camera
-    camera.position.set(0,0,5)
-    camera.zoom=1
-    camera.updateProjectionMatrix()
-  }
+ 
   
 
   return (
@@ -96,11 +93,6 @@ export default function ModelViewer() {
           {showStats && <Stats />}
         </Canvas>
 
-        {error && (
-          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded">
-            {error}
-          </div>
-        )}
 
         <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex gap-2">
           <Button
@@ -110,15 +102,7 @@ export default function ModelViewer() {
           >
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
-          <Button variant="outline" size="icon">
-            <ZoomIn className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon">
-            <ZoomOut className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon" onClick={handleReset}>
-            <RotateCcw className="h-4 w-4" />
-          </Button>
+          
         </div>
       </div>
 
@@ -129,17 +113,7 @@ export default function ModelViewer() {
         </div>
 
         <div className="space-y-6">
-          <div>
-            <label className="text-sm font-medium mb-2 block">
-              Light Intensity
-            </label>
-            <Slider
-              value={[intensity]}
-              onValueChange={([value]) => setIntensity(value)}
-              max={1}
-              step={0.1}
-            />
-          </div>
+
 
           <div>
             <div className="flex items-center gap-2 mb-2">
