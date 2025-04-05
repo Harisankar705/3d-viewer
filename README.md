@@ -12,7 +12,6 @@ This is a 3D model viewer built with **Next.js**, **React Three Fiber**, and **D
 ## 📦 Features
 
 - ✅ Load `.obj` models with `.mtl` materials and textures
-- 🌀 Orbit camera controls
 - 🌞 Light intensity slider
 - 🌗 Dark/light theme toggle
 - 📊 Show/hide render stats
